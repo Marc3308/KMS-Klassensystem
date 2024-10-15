@@ -2,6 +2,8 @@ me\marc3308\klassensysteem\lvsystem\commands\subcommands\helpcommand.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\ovcommand.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\seelenenergieedit.class
 me\marc3308\klassensysteem\Joinev.class
+me\marc3308\klassensysteem\kosystem\koevents.class
+me\marc3308\klassensysteem\Klassensysteem$2.class
 me\marc3308\klassensysteem\lvsystem\xpedit\getxp.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommand.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\playerinfocommand.class
@@ -9,6 +11,7 @@ me\marc3308\klassensysteem\Klassensysteem$1.class
 me\marc3308\klassensysteem\gui.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\lvcommand.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\skilleditcommand.class
+me\marc3308\klassensysteem\kosystem\infgucken.class
 me\marc3308\klassensysteem\utilitys$1.class
 me\marc3308\klassensysteem\lvsystem\commands\CommandManager.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\chanchenamecommand.class

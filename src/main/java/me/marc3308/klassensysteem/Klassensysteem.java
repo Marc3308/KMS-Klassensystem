@@ -1,27 +1,40 @@
 package me.marc3308.klassensysteem;
 
 import me.marc3308.klassensysteem.eventlistener.asynchat;
+import me.marc3308.klassensysteem.kosystem.infgucken;
+import me.marc3308.klassensysteem.kosystem.koevents;
 import me.marc3308.klassensysteem.lvsystem.commands.CommandManager;
 import me.marc3308.klassensysteem.lvsystem.commands.profile;
 import me.marc3308.klassensysteem.lvsystem.xpedit.getxp;
 import me.marc3308.klassensysteem.lvsystem.xpedit.xplose;
 import me.marc3308.klassensysteem.skillsystem.skillcommand;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static me.marc3308.klassensysteem.utilitys.conmap;
 
 public final class Klassensysteem extends JavaPlugin {
 
-    public static Klassensysteem plugin;
+    private static Klassensysteem plugin;
     public static Team hidenteamname;
 
     @Override
@@ -35,63 +48,98 @@ public final class Klassensysteem extends JavaPlugin {
 
                 File file = new File("plugins/KMS Plugins/Arbeitundleben","Skills.yml");
                 FileConfiguration con= YamlConfiguration.loadConfiguration(file);
-                utilitys.conmap.put(1,con);
+                conmap.put(1,con);
 
                 File file2 = new File("plugins/KMS Plugins/Rassensystem","Rassen.yml");
                 FileConfiguration con2= YamlConfiguration.loadConfiguration(file2);
-                utilitys.conmap.put(2,con2);
+                conmap.put(2,con2);
 
 
                 File file3 = new File("plugins/KMS Plugins/Klassensysteem","begleiterskilltree.yml");
                 FileConfiguration con3= YamlConfiguration.loadConfiguration(file3);
-                utilitys.conmap.put(3,con3);
+                conmap.put(3,con3);
 
 
                 File file4 = new File("plugins/KMS Plugins/Klassensysteem","custemmodelds.yml");
                 FileConfiguration con4= YamlConfiguration.loadConfiguration(file4);
-                utilitys.conmap.put(4,con4);
+                conmap.put(4,con4);
 
 
                 File file5 = new File("plugins/KMS Plugins/Klassensysteem","xp.yml");
                 FileConfiguration con5= YamlConfiguration.loadConfiguration(file5);
-                utilitys.conmap.put(5,con5);
+                conmap.put(5,con5);
 
 
                 File file6 = new File("plugins/KMS Plugins/Klassensysteem","skilltree.yml");
                 FileConfiguration con6= YamlConfiguration.loadConfiguration(file6);
-                utilitys.conmap.put(6,con6);
+                conmap.put(6,con6);
 
 
                 File file7 = new File("plugins/Arbeitundleben","Jobs.yml");
                 FileConfiguration con7= YamlConfiguration.loadConfiguration(file7);
-                utilitys.conmap.put(7,con7);
+                conmap.put(7,con7);
 
 
                 File file8 = new File("plugins/Arbeitundleben","Clans.yml");
                 FileConfiguration con8= YamlConfiguration.loadConfiguration(file8);
-                utilitys.conmap.put(8,con8);
+                conmap.put(8,con8);
 
 
                 File file9 = new File("plugins/KMS Plugins/Klassensysteem","titel.yml");
                 FileConfiguration con9= YamlConfiguration.loadConfiguration(file9);
-                utilitys.conmap.put(9,con9);
+                conmap.put(9,con9);
 
 
                 File file10 = new File("plugins/KMS Plugins/Rassensystem","Rassen.yml");
                 FileConfiguration con10= YamlConfiguration.loadConfiguration(file10);
-                utilitys.conmap.put(10,con10);
+                conmap.put(10,con10);
 
                 File file11 = new File("plugins/KMS Plugins/Rassensystem","Rassenpassive.yml");
                 FileConfiguration con11= YamlConfiguration.loadConfiguration(file11);
-                utilitys.conmap.put(11,con11);
+                conmap.put(11,con11);
 
                 File file12 = new File("plugins/KMS Plugins/Siedlungundberufe","Siedlungen.yml");
                 FileConfiguration con12= YamlConfiguration.loadConfiguration(file12);
-                utilitys.conmap.put(12,con12);
+                conmap.put(12,con12);
                 //try fix shit
 
             }
+        },0,20*60);
+
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                for (Player p : Bukkit.getOnlinePlayers()){
+                    if(p.getPersistentDataContainer().has(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)){
+                        if(p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)<=0){
+                            p.sendBlockChange(p.getLocation().add(0,1,0),p.getLocation().add(0,1,0).getBlock().getBlockData());
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20*30,1,false,false));
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION,20*10,20,false,false));
+                            p.getPersistentDataContainer().remove(new NamespacedKey(Klassensysteem.getPlugin(), "istko"));
+                        } else {
+                            //chanche hight
+                            ArmorStand ar=p.getWorld().spawn(p.getLocation().add(0,1,0),ArmorStand.class);
+                            ar.setInvulnerable(true);
+                            ar.setCustomName("KO");
+                            ar.setCustomNameVisible(true);
+                            ar.setGravity(false);
+                            ar.setVisible(false);
+                            ar.setSmall(true);
+                            Bukkit.getScheduler().runTaskLater(getPlugin(), () -> ar.remove(),21L);
+
+                            if(p.getLocation().add(0,1,0).getBlock().getType().equals(Material.AIR))p.sendBlockChange(p.getLocation().add(0,1,0),Material.BARRIER.createBlockData());
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING,20*3,20,false,false));
+                            int is = p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)-1;
+                            is= p.isSneaking() ? (is-=10) : (is-=1);
+                            p.getPersistentDataContainer().set(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER,is);
+                            if(is>0)p.sendTitle(ChatColor.DARK_RED+""+(p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)),"");
+                        }
+                    }
+                }
+            }
         },0,20);
+
 
         //todo secret wege einbauen
         //todo passiven wechsel einbauen
@@ -115,6 +163,10 @@ public final class Klassensysteem extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new xplose(),this);
         Bukkit.getPluginManager().registerEvents(new asynchat(),this);
 
+        //kosystems
+        Bukkit.getPluginManager().registerEvents(new koevents(),this);
+        Bukkit.getPluginManager().registerEvents(new infgucken(),this);
+
         //listen
         File file = new File("plugins/KMS Plugins/Klassensysteem","xp.yml");
         FileConfiguration con= YamlConfiguration.loadConfiguration(file);
@@ -134,6 +186,7 @@ public final class Klassensysteem extends JavaPlugin {
 
         if(con.get("kill")==null){
 
+            con.set("KOtimevortotinminut",5);
             con.set("kill"+".ZOMBIE"+".xp",15.0);
             con.set("kill"+".ZOMBIE"+".randomrange",true);
 

@@ -1,12 +1,6 @@
 package me.marc3308.klassensysteem;
 
-import com.google.j2objc.annotations.Property;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.PropertyMap;
-import net.minecraft.server.level.EntityPlayer;
-import net.minecraft.server.network.PlayerConnection;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
@@ -22,7 +16,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.scoreboard.Team;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -35,8 +28,6 @@ public class utilitys {
 
 
     public static HashMap<Integer,FileConfiguration> conmap=new HashMap<>();
-
-
 
     public static ItemStack build(String s, int cus,Player p){
 
