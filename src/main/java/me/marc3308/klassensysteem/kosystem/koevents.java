@@ -49,6 +49,6 @@ public class koevents implements Listener {
     @EventHandler
     public void onmove(PlayerMoveEvent e){
         Player p= (Player) e.getPlayer();
-        if(p.getPersistentDataContainer().has(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER))e.setCancelled(true);
+        if(p.getPersistentDataContainer().has(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER) && e.getFrom().getY()<=e.getTo().getY())e.setCancelled(true);
     }
 }
