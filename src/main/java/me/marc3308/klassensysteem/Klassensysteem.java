@@ -131,7 +131,7 @@ public final class Klassensysteem extends JavaPlugin {
                             if(p.getLocation().add(0,1,0).getBlock().getType().equals(Material.AIR))p.sendBlockChange(p.getLocation().add(0,1,0),Material.BARRIER.createBlockData());
                             p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING,20*3,20,false,false));
                             int is = p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)-1;
-                            is= p.isSneaking() ? (is-=10) : (is-=1);
+                            //is= p.isSneaking() ? (is-=10) : (is-=1);
                             p.getPersistentDataContainer().set(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER,is);
                             if(is>0)p.sendTitle(ChatColor.DARK_RED+""+(p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)),"");
                         }
