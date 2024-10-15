@@ -15,6 +15,7 @@ public class infgucken implements Listener {
 
     @EventHandler
     public void oninv(PlayerInteractEntityEvent e){
+        if(!(e.getRightClicked() instanceof Player))return;
         Player boden= (Player) e.getRightClicked();
         if(!boden.getPersistentDataContainer().has(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER))return;
         Player p=e.getPlayer();
