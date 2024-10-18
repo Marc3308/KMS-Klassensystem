@@ -2,9 +2,7 @@ package me.marc3308.klassensysteem.kosystem;
 
 import me.marc3308.klassensysteem.Klassensysteem;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

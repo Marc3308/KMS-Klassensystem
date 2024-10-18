@@ -2,11 +2,9 @@ package me.marc3308.klassensysteem.lvsystem.xpedit;
 
 import me.marc3308.klassensysteem.Klassensysteem;
 import me.marc3308.klassensysteem.gui;
+import me.marc3308.klassensysteem.objekte.party;
 import me.marc3308.klassensysteem.utilitys;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,9 +15,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static me.marc3308.klassensysteem.utilitys.getcon;
+import static me.marc3308.klassensysteem.utilitys.*;
 
 public class getxp implements Listener {
 
@@ -32,21 +31,32 @@ public class getxp implements Listener {
 
             Player p=(Player) test.getShooter();
 
-            givexp(p,e.getEntity());
+            if(getparty(p)!=-10){
+                int grose=partylist.get(getparty(p)).getMitglieder().size();
+                givexp(Bukkit.getPlayer(UUID.fromString(partylist.get(getparty(p)).getOwner())),e.getEntity(),grose);
+                for (String mitglied : partylist.get(getparty(p)).getMitglieder())givexp(Bukkit.getPlayer(UUID.fromString(mitglied)),e.getEntity(),grose);
+            } else {
+                givexp(p,e.getEntity(),1);
+            }
 
         } else {
 
             if(!(e.getEntity().getKiller() instanceof Player))return;
 
             Player p=e.getEntity().getKiller();
-
-            givexp(p,e.getEntity());
+            if(getparty(p)!=-10){
+                int grose=partylist.get(getparty(p)).getMitglieder().size();
+                givexp(Bukkit.getPlayer(UUID.fromString(partylist.get(getparty(p)).getOwner())),e.getEntity(),grose);
+                for (String mitglied : partylist.get(getparty(p)).getMitglieder())givexp(Bukkit.getPlayer(UUID.fromString(mitglied)),e.getEntity(),grose);
+            } else {
+                givexp(p,e.getEntity(),1);
+            }
 
         }
     }
 
 
-    public void givexp(Player p, Entity e){
+    public void givexp(Player p, Entity e, int Partymitglieder){
 
 
         //giving the player xp
@@ -67,6 +77,9 @@ public class getxp implements Listener {
                 break;
             }
         }
+
+        //for the party
+        xpmobdrop/=Partymitglieder;
 
         xpgain =p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "xp"), PersistentDataType.DOUBLE) + xpmobdrop;
         p.getPersistentDataContainer().set(new NamespacedKey(Klassensysteem.getPlugin(), "xp"), PersistentDataType.DOUBLE,xpgain);

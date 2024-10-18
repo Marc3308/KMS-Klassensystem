@@ -9,7 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -17,7 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -34,32 +32,15 @@ public class profile implements CommandExecutor {
         Player p=(Player) commandSender;
         Player pp=(Player) commandSender;
 
-        File file = new File("plugins/KMS Plugins/Arbeitundleben","Skills.yml");
-        FileConfiguration con= YamlConfiguration.loadConfiguration(file);
-
-        file = new File("plugins/KMS Plugins/Rassensystem","Rassen.yml");
-        FileConfiguration con2= YamlConfiguration.loadConfiguration(file);
-
-        file = new File("plugins/KMS Plugins/Klassensysteem","begleiterskilltree.yml");
-        FileConfiguration con3= YamlConfiguration.loadConfiguration(file);
-
-        file = new File("plugins/KMS Plugins/Klassensysteem","custemmodelds.yml");
-        FileConfiguration con4= YamlConfiguration.loadConfiguration(file);
-
-        file = new File("plugins/KMS Plugins/Klassensysteem","xp.yml");
-        FileConfiguration con5= YamlConfiguration.loadConfiguration(file);
-
-        file = new File("plugins/KMS Plugins/Klassensysteem","skilltree.yml");
-        FileConfiguration con6= YamlConfiguration.loadConfiguration(file);
-
-        file = new File("plugins/Arbeitundleben","Jobs.yml");
-        FileConfiguration con7= YamlConfiguration.loadConfiguration(file);
-
-        file = new File("plugins/Arbeitundleben","Clans.yml");
-        FileConfiguration con8= YamlConfiguration.loadConfiguration(file);
-
-        file = new File("plugins/KMS Plugins/Klassensysteem","titel.yml");
-        FileConfiguration con9= YamlConfiguration.loadConfiguration(file);
+        FileConfiguration con=getcon(1);
+        FileConfiguration con2=getcon(2);
+        FileConfiguration con3=getcon(3);
+        FileConfiguration con4=getcon(4);
+        FileConfiguration con5=getcon(5);
+        FileConfiguration con6=getcon(6);
+        FileConfiguration con7=getcon(7);
+        FileConfiguration con8=getcon(8);
+        FileConfiguration con9=getcon(9);
 
         //check if mod wants to see a provile
         if(p.hasPermission("klassenmod") && strings.length==1){
@@ -108,9 +89,6 @@ public class profile implements CommandExecutor {
         ArrayList<String> skull_lore=new ArrayList<>();
         skull_lore.add("Spezies: "+(rasse.equalsIgnoreCase("spezienlos") ? rasse :getcon(10).getString(rasse+".name")));
         if(!klasse.equals("Klassenlos") && !klasse.equals(" "))skull_lore.add("Titel: "+con9.getString(klasse+".AnzeigeName"));
-        //skull_lore.add("Lv: "+lv+"/100");
-        //skull_lore.add("Xp: "+(int) xp +"/"+xpneaded);
-        //skull_lore.add("Skillpunkte: "+sk);
         skull_lore.add("Seelenenergie: "+p.getPersistentDataContainer().getOrDefault(new NamespacedKey(Klassensysteem.getPlugin(), "Seelenenergie"), PersistentDataType.INTEGER,100)+"%");
         skull.setDisplayName(p.getName().toString());
         skull.setOwner(p.getName().toString());
@@ -318,22 +296,19 @@ public class profile implements CommandExecutor {
             provile.setItem(i,skillslotbuild);
         }
 
-        //job
-        if(p.getPersistentDataContainer().has(new NamespacedKey("arbeitundleben", "job"), PersistentDataType.STRING)){
+        //partysystem
+        if(true){
 
-            String job_name=p.getPersistentDataContainer().get(new NamespacedKey("arbeitundleben", "job"), PersistentDataType.STRING);
-
-
-
-            ItemStack clan=new ItemStack(Material.valueOf(con7.getString(job_name+".Block")));
+            ItemStack clan=new ItemStack(Material.valueOf(con4.getString("party"+".Block")));
             ItemMeta clan_meta= clan.getItemMeta();
-            clan_meta.setCustomModelData(con7.getInt(job_name+".Custemmoddeldatataken"));
-            clan_meta.setDisplayName(con7.getString(job_name+".AnzeigeName"));
+            clan_meta.setCustomModelData(con4.getInt("party"+".Custemmoddeldatataken"));
+            clan_meta.setDisplayName(con4.getString("party"+".AnzeigeName"));
             ArrayList<String> clan_lore=new ArrayList<>();
-            if(con7.get(job_name+".Beschreibung")!=null)clan_lore.add(con7.getString(job_name+".Beschreibung"));
+            if(con4.get("party"+".Beschreibung")!=null)clan_lore.add(con4.getString("party"+".Beschreibung"));
             clan_meta.setLore(clan_lore);
             clan.setItemMeta(clan_meta);
             provile.setItem(16,clan);
+
         }
 
         //clan

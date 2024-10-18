@@ -10,6 +10,8 @@ commands:
     description: command manager
   skilltree:
     description: opens your skilltree
+  partyeinladung:
+    description: opens a inv if you are invitet to a party
 
 permissions:
   klassenmod:

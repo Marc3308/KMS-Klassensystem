@@ -1,5 +1,6 @@
 package me.marc3308.klassensysteem;
 
+import me.marc3308.klassensysteem.objekte.party;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -11,7 +12,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.profile.PlayerProfile;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import org.bukkit.Bukkit;
@@ -28,6 +31,8 @@ public class utilitys {
 
 
     public static HashMap<Integer,FileConfiguration> conmap=new HashMap<>();
+    public static ArrayList<party> partylist=new ArrayList<>();
+
 
     public static ItemStack build(String s, int cus,Player p){
 
@@ -148,24 +153,15 @@ public class utilitys {
 
     public static ItemStack builder(Player p, String s, Integer xx, Integer yml){
 
-        File file = new File("plugins/KMS Plugins/Arbeitundleben","Skills.yml");
-        FileConfiguration con= YamlConfiguration.loadConfiguration(file);
-        file = new File("plugins/KMS Plugins/Rassensystem","Rassen.yml");
-        FileConfiguration con2= YamlConfiguration.loadConfiguration(file);
-        file = new File("plugins/KMS Plugins/Klassensysteem","begleiterskilltree.yml");
-        FileConfiguration con3= YamlConfiguration.loadConfiguration(file);
-        file = new File("plugins/KMS Plugins/Klassensysteem","custemmodelds.yml");
-        FileConfiguration con4= YamlConfiguration.loadConfiguration(file);
-        file = new File("plugins/KMS Plugins/Klassensysteem","xp.yml");
-        FileConfiguration con5= YamlConfiguration.loadConfiguration(file);
-        file = new File("plugins/KMS Plugins/Klassensysteem","skilltree.yml");
-        FileConfiguration con6= YamlConfiguration.loadConfiguration(file);
-        file = new File("plugins/Arbeitundleben","Jobs.yml");
-        FileConfiguration con7= YamlConfiguration.loadConfiguration(file);
-        file = new File("plugins/Arbeitundleben","Clans.yml");
-        FileConfiguration con8= YamlConfiguration.loadConfiguration(file);
-        file = new File("plugins/KMS Plugins/Klassensysteem","titel.yml");
-        FileConfiguration con9= YamlConfiguration.loadConfiguration(file);
+        FileConfiguration con=getcon(1);
+        FileConfiguration con2=getcon(2);
+        FileConfiguration con3=getcon(3);
+        FileConfiguration con4=getcon(4);
+        FileConfiguration con5=getcon(5);
+        FileConfiguration con6=getcon(6);
+        FileConfiguration con7=getcon(7);
+        FileConfiguration con8=getcon(8);
+        FileConfiguration con9=getcon(9);
 
         FileConfiguration finalcon= yml==1 ? con : yml==2 ? con2 : yml==3 ? con3 : yml==4 ? con4 : yml==5 ? con5 : yml==6 ? con6 : yml==7 ? con7 : yml==8 ? con8 : con9;
 
@@ -635,6 +631,59 @@ public class utilitys {
 
     public static FileConfiguration getcon(int num){
         return conmap.get(num);
+    }
+
+    public static ItemStack getpartyitem(String item){
+        switch (item){
+            case "einladungminus":
+                ItemStack einladungminus=new ItemStack(Material.RED_CONCRETE);
+                ItemMeta einladungminus_meta=einladungminus.getItemMeta();
+                einladungminus_meta.setDisplayName(ChatColor.RED+""+ChatColor.BOLD+"Ablehnen");
+                einladungminus.setItemMeta(einladungminus_meta);
+                return einladungminus;
+            case "einladungplus":
+                ItemStack einladungplus=new ItemStack(Material.GREEN_CONCRETE);
+                ItemMeta einladungplus_meta=einladungplus.getItemMeta();
+                einladungplus_meta.setDisplayName(ChatColor.GREEN+""+ChatColor.BOLD+"Annehmen");
+                einladungplus.setItemMeta(einladungplus_meta);
+                return einladungplus;
+            case "hinzufügen":
+                ItemStack hinzufügen=new ItemStack(Material.GREEN_WOOL);
+                ItemMeta hinzufügen_meta=hinzufügen.getItemMeta();
+                hinzufügen_meta.setDisplayName(ChatColor.GREEN+""+ChatColor.BOLD+"Hinzufügen");
+                hinzufügen.setItemMeta(hinzufügen_meta);
+                return hinzufügen;
+            case "rauschmeisen":
+                ItemStack rauschmeisen=new ItemStack(Material.RED_WOOL);
+                ItemMeta rauschmeisen_meta=rauschmeisen.getItemMeta();
+                rauschmeisen_meta.setDisplayName(ChatColor.RED+""+ChatColor.BOLD+"Rauswefen");
+                rauschmeisen.setItemMeta(rauschmeisen_meta);
+                return rauschmeisen;
+            case "glass":
+                ItemStack glass=new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
+                ItemMeta glass_meta=glass.getItemMeta();
+                glass_meta.setDisplayName(" ");
+                glass.setItemMeta(glass_meta);
+                return glass;
+            case "pfeil":
+                //backpfeil
+                ItemStack pfeil=new ItemStack(Material.ARROW);
+                ItemMeta pfeil_met= pfeil.getItemMeta();
+                pfeil_met.setDisplayName(ChatColor.BOLD+"BACK");
+                pfeil.setItemMeta(pfeil_met);
+                return pfeil;
+        }
+        ItemStack error=new ItemStack(Material.COMMAND_BLOCK);
+        ItemMeta error_meta= error.getItemMeta();
+        error_meta.setDisplayName(ChatColor.DARK_GREEN+"ERROR with "+item);
+        error.setItemMeta(error_meta);
+        return  error;
+    }
+
+    public static int getparty(Player p){
+        party party=partylist.get(0);
+        for (party party1 : partylist)if(party1.getOwner().equals(p.getUniqueId().toString()) || party1.getMitglieder().contains(p.getUniqueId().toString()))party=party1;
+        return party.getOwner().equals(p.getUniqueId().toString()) || party.getMitglieder().contains(p.getUniqueId().toString()) ?  partylist.indexOf(party) : -10;
     }
 
     public static void movecam(Player p, Location loc){

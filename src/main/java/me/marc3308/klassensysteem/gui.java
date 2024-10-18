@@ -18,9 +18,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.UUID;
 
-import static me.marc3308.klassensysteem.utilitys.builder;
-import static me.marc3308.klassensysteem.utilitys.getcon;
+import static me.marc3308.klassensysteem.utilitys.*;
 
 public class gui implements Listener {
 
@@ -78,6 +78,14 @@ public class gui implements Listener {
             //passiven
             if(e.getSlot()==9 && p.getPersistentDataContainer().has(new NamespacedKey("rassensystem","rasse"), PersistentDataType.STRING)
                     && getcon(10).get(p.getPersistentDataContainer().get(new NamespacedKey("rassensystem","rasse"), PersistentDataType.STRING)+".passiven")!=null)passivinv(p,e.getCurrentItem());
+
+            //party
+            if(e.getSlot()==16){
+
+                Inventory Party= Bukkit.createInventory(p,27,"PROFIL > "+getcon(4).getString("party"+".AnzeigeName"));
+                p.openInventory(Party);
+
+            }
 
             //title
             if(e.getSlot()==17){

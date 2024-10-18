@@ -7,6 +7,10 @@ import me.marc3308.klassensysteem.lvsystem.commands.CommandManager;
 import me.marc3308.klassensysteem.lvsystem.commands.profile;
 import me.marc3308.klassensysteem.lvsystem.xpedit.getxp;
 import me.marc3308.klassensysteem.lvsystem.xpedit.xplose;
+import me.marc3308.klassensysteem.partysystem.partyattack;
+import me.marc3308.klassensysteem.partysystem.partyinv;
+import me.marc3308.klassensysteem.partysystem.partyinvite;
+import me.marc3308.klassensysteem.partysystem.partyleave;
 import me.marc3308.klassensysteem.skillsystem.skillcommand;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -34,7 +38,7 @@ import static me.marc3308.klassensysteem.utilitys.conmap;
 
 public final class Klassensysteem extends JavaPlugin {
 
-    private static Klassensysteem plugin;
+    public static Klassensysteem plugin;
     public static Team hidenteamname;
 
     @Override
@@ -166,6 +170,12 @@ public final class Klassensysteem extends JavaPlugin {
         //kosystems
         Bukkit.getPluginManager().registerEvents(new koevents(),this);
         Bukkit.getPluginManager().registerEvents(new infgucken(),this);
+
+        //party system
+        Bukkit.getPluginManager().registerEvents(new partyleave(),this);
+        Bukkit.getPluginManager().registerEvents(new partyinv(),this);
+        Bukkit.getPluginManager().registerEvents(new partyattack(),this);
+        getCommand("partyeinladung").setExecutor(new partyinvite());
 
         //listen
         File file = new File("plugins/KMS Plugins/Klassensysteem","xp.yml");
