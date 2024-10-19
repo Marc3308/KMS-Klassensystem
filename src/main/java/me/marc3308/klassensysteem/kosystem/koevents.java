@@ -20,7 +20,7 @@ public class koevents implements Listener {
     public void ondmg(EntityDamageEvent e){
         if(!(e.getEntity() instanceof Player))return;
         Player p= (Player) e.getEntity();
-        if(p.getHealth()-e.getDamage()>0.5)return;
+        if(p.getHealth()-e.getFinalDamage()>0.5)return;
         if(!p.getPersistentDataContainer().has(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)){
             p.getPersistentDataContainer().set(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER,conmap.get(5).getInt("KOtimevortotinminut")*60);
             e.setCancelled(true);
