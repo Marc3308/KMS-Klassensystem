@@ -4,7 +4,6 @@ import me.marc3308.klassensysteem.objekte.party;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.v1_20_R1.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
@@ -12,9 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.profile.PlayerProfile;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import org.bukkit.Bukkit;
@@ -681,6 +678,7 @@ public class utilitys {
     }
 
     public static int getparty(Player p){
+        if(partylist.isEmpty())return -10;
         party party=partylist.get(0);
         for (party party1 : partylist)if(party1.getOwner().equals(p.getUniqueId().toString()) || party1.getMitglieder().contains(p.getUniqueId().toString()))party=party1;
         return party.getOwner().equals(p.getUniqueId().toString()) || party.getMitglieder().contains(p.getUniqueId().toString()) ?  partylist.indexOf(party) : -10;
@@ -710,7 +708,7 @@ public class utilitys {
                     return;
                 }
 
-                CraftPlayer et = (CraftPlayer) p;
+                //CraftPlayer et = (CraftPlayer) p;
 
                 //ClientboundSetCameraPacket packet = new ClientboundSetCameraPacket( ((CraftEntity) camera).getHandle() );
                 //((CraftPlayer) et).getHandle().connection.send(packet);

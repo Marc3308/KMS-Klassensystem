@@ -55,11 +55,12 @@ public class gui implements Listener {
                 return;
             }
 
-            //Siedlungen
+            //party
             if(e.getSlot()==7){
-                Inventory siedlunginv = Bukkit.createInventory(p,27,"Siedlungswarteschlange    ");
-                p.openInventory(siedlunginv);
-                return;
+
+                Inventory Party= Bukkit.createInventory(p,27,"PROFIL > partywarteschlange");
+                p.openInventory(Party);
+
             }
 
             String name=e.getCurrentItem().getItemMeta().getDisplayName().toString();
@@ -79,12 +80,11 @@ public class gui implements Listener {
             if(e.getSlot()==9 && p.getPersistentDataContainer().has(new NamespacedKey("rassensystem","rasse"), PersistentDataType.STRING)
                     && getcon(10).get(p.getPersistentDataContainer().get(new NamespacedKey("rassensystem","rasse"), PersistentDataType.STRING)+".passiven")!=null)passivinv(p,e.getCurrentItem());
 
-            //party
+            //Siedlungen
             if(e.getSlot()==16){
-
-                Inventory Party= Bukkit.createInventory(p,27,"PROFIL > "+getcon(4).getString("party"+".AnzeigeName"));
-                p.openInventory(Party);
-
+                Inventory siedlunginv = Bukkit.createInventory(p,27,"Siedlungswarteschlange    ");
+                p.openInventory(siedlunginv);
+                return;
             }
 
             //title

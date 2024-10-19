@@ -6,12 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="KMS-Kassensysteem" />
+        <module name="KMS-Klassensysteem" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="klassensysteem" target="1.8" />
       <module name="KMS klassensysteem" target="1.8" />
+      <module name="KMS-Kassensysteem" target="9" />
     </bytecodeTargetLevel>
   </component>
 </project>

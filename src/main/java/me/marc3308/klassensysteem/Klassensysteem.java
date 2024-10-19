@@ -118,8 +118,8 @@ public final class Klassensysteem extends JavaPlugin {
                     if(p.getPersistentDataContainer().has(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)){
                         if(p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)<=0){
                             p.sendBlockChange(p.getLocation().add(0,1,0),p.getLocation().add(0,1,0).getBlock().getBlockData());
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,20*30,1,false,false));
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION,20*10,20,false,false));
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS,20*30,1,false,false));
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA,20*10,20,false,false));
                             p.getPersistentDataContainer().remove(new NamespacedKey(Klassensysteem.getPlugin(), "istko"));
                         } else {
                             //chanche hight
@@ -133,7 +133,7 @@ public final class Klassensysteem extends JavaPlugin {
                             Bukkit.getScheduler().runTaskLater(getPlugin(), () -> ar.remove(),21L);
 
                             if(p.getLocation().add(0,1,0).getBlock().getType().equals(Material.AIR))p.sendBlockChange(p.getLocation().add(0,1,0),Material.BARRIER.createBlockData());
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING,20*3,20,false,false));
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE,20*3,20,false,false));
                             int is = p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)-1;
                             //is= p.isSneaking() ? (is-=10) : (is-=1);
                             p.getPersistentDataContainer().set(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER,is);

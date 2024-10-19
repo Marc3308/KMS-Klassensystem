@@ -148,7 +148,7 @@ public class profile implements CommandExecutor {
                 test.setItemMeta(test_meta);
             }
 
-            ItemStack item=new ItemStack(Material.PAPER);
+            ItemStack item=new ItemStack(Material.DIAMOND);
             ItemMeta item_meta= item.getItemMeta();
             item_meta.setDisplayName(con2.getString(rasse+".name"));
             item_meta.setCustomModelData(con2.getInt(rasse+".custemmoddeldata"));
@@ -307,11 +307,11 @@ public class profile implements CommandExecutor {
             if(con4.get("party"+".Beschreibung")!=null)clan_lore.add(con4.getString("party"+".Beschreibung"));
             clan_meta.setLore(clan_lore);
             clan.setItemMeta(clan_meta);
-            provile.setItem(16,clan);
+            provile.setItem(7,clan);
 
         }
 
-        //clan
+        //siedlung
         if(p.getPersistentDataContainer().has(new NamespacedKey("siedlungundberufe", "siedlung"), PersistentDataType.INTEGER)){
 
             int clanname=p.getPersistentDataContainer().get(new NamespacedKey("siedlungundberufe", "siedlung"), PersistentDataType.INTEGER);
@@ -326,7 +326,7 @@ public class profile implements CommandExecutor {
             if(getcon(12).get(clanname+".Beschreibung")!=null)clan_lore.add(getcon(12).getString(clanname+".Beschreibung"));
             clan_meta.setLore(clan_lore);
             clan.setItemMeta(clan_meta);
-            provile.setItem(7,clan);
+            provile.setItem(16,clan);
         }
 
         pp.openInventory(provile);

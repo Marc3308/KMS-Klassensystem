@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -32,9 +33,10 @@ public class getxp implements Listener {
             Player p=(Player) test.getShooter();
 
             if(getparty(p)!=-10){
-                int grose=partylist.get(getparty(p)).getMitglieder().size();
-                givexp(Bukkit.getPlayer(UUID.fromString(partylist.get(getparty(p)).getOwner())),e.getEntity(),grose);
-                for (String mitglied : partylist.get(getparty(p)).getMitglieder())givexp(Bukkit.getPlayer(UUID.fromString(mitglied)),e.getEntity(),grose);
+                ArrayList<Player> partylist=new ArrayList<>();
+                partylist.add(p);
+                for (Entity et : p.getNearbyEntities(64,64,64))if(et instanceof Player && getparty((Player) et)==getparty(p))partylist.add((Player) et);
+                for (Player pl : partylist)givexp(pl,e.getEntity(),partylist.size());
             } else {
                 givexp(p,e.getEntity(),1);
             }
@@ -45,9 +47,10 @@ public class getxp implements Listener {
 
             Player p=e.getEntity().getKiller();
             if(getparty(p)!=-10){
-                int grose=partylist.get(getparty(p)).getMitglieder().size();
-                givexp(Bukkit.getPlayer(UUID.fromString(partylist.get(getparty(p)).getOwner())),e.getEntity(),grose);
-                for (String mitglied : partylist.get(getparty(p)).getMitglieder())givexp(Bukkit.getPlayer(UUID.fromString(mitglied)),e.getEntity(),grose);
+                ArrayList<Player> partylist=new ArrayList<>();
+                partylist.add(p);
+                for (Entity et : p.getNearbyEntities(64,64,64))if(et instanceof Player && getparty((Player) et)==getparty(p))partylist.add((Player) et);
+                for (Player pl : partylist)givexp(pl,e.getEntity(),partylist.size());
             } else {
                 givexp(p,e.getEntity(),1);
             }

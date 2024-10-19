@@ -30,17 +30,19 @@ public class partyinv implements Listener {
     public void onopen(InventoryOpenEvent e){
         Player p= (Player) e.getPlayer();
 
+
+
         //only party
-        if(e.getView().getTitle().equals("PROFIL > "+getcon(4).getString("party"+".AnzeigeName"))){
+        if(e.getView().getTitle().equals("PROFIL > partywarteschlange")){
             //no party
             if(getparty(p)==-10){
 
                 //inv
-                Inventory inv=e.getInventory();
+                Inventory inv= Bukkit.createInventory(p,27,"PROFIL > "+getcon(4).getString("party"+".AnzeigeName"));
 
                 ItemStack hinzufügen=new ItemStack(Material.GREEN_CONCRETE);
                 ItemMeta hinzufügen_meta=hinzufügen.getItemMeta();
-                hinzufügen_meta.setDisplayName(ChatColor.GREEN+""+ChatColor.BOLD+" Party Gründen");
+                hinzufügen_meta.setDisplayName(ChatColor.GREEN+""+ChatColor.BOLD+"Erstellen");
                 hinzufügen.setItemMeta(hinzufügen_meta);
                 inv.setItem(12,hinzufügen);
 
@@ -49,6 +51,8 @@ public class partyinv implements Listener {
                 zurück_meta.setDisplayName(ChatColor.RED+""+ChatColor.BOLD+"Zurück");
                 zurück.setItemMeta(zurück_meta);
                 inv.setItem(14,zurück);
+
+                Bukkit.getScheduler().runTaskLater(Klassensysteem.getPlugin(), () -> p.openInventory(inv), 1L);
                 return;
             }
 
@@ -90,33 +94,30 @@ public class partyinv implements Listener {
             for (int i=45;i<54;i++)inv.setItem(i,getpartyitem("glass")); //bot
 
             for (Player neuzugang : Bukkit.getOnlinePlayers()){
-                for (party pty : partylist){
-                    if(pty.getOwner().equals(neuzugang.getUniqueId().toString()) || pty.getMitglieder().contains(neuzugang.getUniqueId().toString())){
-                        ItemStack head=new ItemStack(Material.PLAYER_HEAD,1,(short) 3);
-                        SkullMeta skull=(SkullMeta) head.getItemMeta();
-                        skull.setDisplayName(neuzugang.getPersistentDataContainer().get(new NamespacedKey("klassensysteem", "secretname"), PersistentDataType.STRING));
-                        skull.setOwner(neuzugang.getName().toString());
-                        head.setItemMeta(skull);
-                        inv.setItem(rauslist.get(0),head);
-                        rauslist.remove(0);
-                        if(rauslist.isEmpty())break;
-                    } else if(getparty(p)==-10){
-                        ItemStack head=new ItemStack(Material.PLAYER_HEAD,1,(short) 3);
-                        SkullMeta skull=(SkullMeta) head.getItemMeta();
-                        skull.setDisplayName(neuzugang.getPersistentDataContainer().get(new NamespacedKey("klassensysteem", "secretname"), PersistentDataType.STRING));
-                        skull.setOwner(neuzugang.getName().toString());
-                        head.setItemMeta(skull);
-                        inv.setItem(hinzulist.get(0),head);
-                        hinzulist.remove(0);
-                        if(hinzulist.isEmpty())break;
-                    }
+                if(getparty(neuzugang)==getparty(p)){
+                    ItemStack head=new ItemStack(Material.PLAYER_HEAD,1,(short) 3);
+                    SkullMeta skull=(SkullMeta) head.getItemMeta();
+                    skull.setDisplayName(neuzugang.getPersistentDataContainer().get(new NamespacedKey("klassensysteem", "secretname"), PersistentDataType.STRING));
+                    skull.setOwner(neuzugang.getName().toString());
+                    head.setItemMeta(skull);
+                    inv.setItem(rauslist.get(0),head);
+                    rauslist.remove(0);
+                    if(rauslist.isEmpty())break;
+                } else if(getparty(neuzugang)==-10){
+                    ItemStack head=new ItemStack(Material.PLAYER_HEAD,1,(short) 3);
+                    SkullMeta skull=(SkullMeta) head.getItemMeta();
+                    skull.setDisplayName(neuzugang.getPersistentDataContainer().get(new NamespacedKey("klassensysteem", "secretname"), PersistentDataType.STRING));
+                    skull.setOwner(neuzugang.getName().toString());
+                    head.setItemMeta(skull);
+                    inv.setItem(hinzulist.get(0),head);
+                    hinzulist.remove(0);
+                    if(hinzulist.isEmpty())break;
                 }
             }
 
             inv.setItem(2,getpartyitem("hinzufügen"));
             inv.setItem(6,getpartyitem("rauschmeisen"));
             inv.setItem(49,getpartyitem("pfeil"));
-
             Bukkit.getScheduler().runTaskLater(Klassensysteem.getPlugin(), () -> p.openInventory(inv), 1L);
         }
 
@@ -142,7 +143,7 @@ public class partyinv implements Listener {
             switch (e.getCurrentItem().getType()){
                 case GREEN_CONCRETE:
                     partylist.add(new party(p.getUniqueId().toString(),new ArrayList<>()));
-                    Inventory Party= Bukkit.createInventory(p,27,"PROFIL > "+getcon(4).getString("party"+".AnzeigeName"));
+                    Inventory Party= Bukkit.createInventory(p,27,"PROFIL > partywarteschlange");
                     p.openInventory(Party);
                     break;
                 case PLAYER_HEAD:
@@ -151,18 +152,20 @@ public class partyinv implements Listener {
 
                     for (party part : partylist){
                         if(part.getOwner().equals(skullplayer.getUniqueId().toString()) || part.getMitglieder().contains(skullplayer.getUniqueId().toString())){
-                            if(!part.getOwner().equals(p.getUniqueId().toString()))return; //if not the owner
+                            if(!p.equals(skullplayer) && !part.getOwner().equals(p.getUniqueId().toString()))return; //if not the owner
                             part.removeMitglied(skullplayer.getUniqueId().toString());
-                            Inventory Partyinv= Bukkit.createInventory(p,27,"PROFIL > "+getcon(4).getString("party"+".AnzeigeName"));
+                            if(part.getOwner().equals(p.getUniqueId().toString()) && p.equals(skullplayer))partylist.remove(part);
+                            Inventory Partyinv= Bukkit.createInventory(p,27,"PROFIL > partywarteschlange");
                             p.openInventory(Partyinv);
+                            return;
                         }
                     }
 
                     //invite
                     p.sendMessage(ChatColor.GREEN+skullplayer.getPersistentDataContainer().get(new NamespacedKey("klassensysteem", "secretname"), PersistentDataType.STRING)+ChatColor.DARK_GREEN+" wurde eingeladen");
-                    TextComponent loc2=new TextComponent(ChatColor.DARK_GREEN+"Du hast eine Partyeinladung erhalten "+ChatColor.YELLOW+"[Linksklick zum Anschauen]");
+                    TextComponent loc2=new TextComponent(ChatColor.DARK_GREEN+"Du hast eine Bündniseinladung erhalten "+ChatColor.YELLOW+"[Linksklick zum Anschauen]");
                     loc2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/partyeinladung"));
-                    skullplayer.sendMessage(String.valueOf(loc2));
+                    skullplayer.sendMessage(loc2);
                     skullplayer.getPersistentDataContainer().set(new NamespacedKey(Klassensysteem.getPlugin(), "partyeinladung"), PersistentDataType.INTEGER,getparty(p));
                     Bukkit.getScheduler().runTaskLater(Klassensysteem.getPlugin(), () -> skullplayer.getPersistentDataContainer().remove(new NamespacedKey(Klassensysteem.getPlugin(), "partyeinladung")), 20*60);
 
@@ -195,7 +198,8 @@ public class partyinv implements Listener {
                     }
                     partylist.get(p.getPersistentDataContainer().get(new NamespacedKey(plugin, "partyeinladung"), PersistentDataType.INTEGER)).addMitlgied(p.getUniqueId().toString());
                     p.getPersistentDataContainer().remove(new NamespacedKey(plugin, "partyeinladung"));
-                    p.closeInventory();
+                    Inventory Partyinv= Bukkit.createInventory(p,27,"PROFIL > partywarteschlange");
+                    p.openInventory(Partyinv);
                     break;
                 case RED_CONCRETE:
                     p.getPersistentDataContainer().remove(new NamespacedKey(plugin, "partyeinladung"));
