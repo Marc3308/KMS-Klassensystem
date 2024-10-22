@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -48,5 +49,11 @@ public class koevents implements Listener {
     public void onmove(PlayerMoveEvent e){
         Player p= (Player) e.getPlayer();
         if(p.getPersistentDataContainer().has(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER) && e.getFrom().getY()<=e.getTo().getY())e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void inclick(InventoryClickEvent e){
+        Player p= (Player) e.getWhoClicked();
+        if(p.getPersistentDataContainer().has(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER))e.setCancelled(true);
     }
 }
