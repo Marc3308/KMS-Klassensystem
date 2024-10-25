@@ -24,6 +24,10 @@ public class koevents implements Listener {
         if(p.getHealth()-e.getFinalDamage()>0.5)return;
         if(!p.getPersistentDataContainer().has(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)){
             p.getPersistentDataContainer().set(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER,conmap.get(5).getInt("KOtimevortotinminut")*60);
+            if(p.getInventory().getItemInOffHand()!=null){
+                p.getWorld().dropItemNaturally(p.getLocation(),p.getInventory().getItemInOffHand());
+                p.getInventory().setItemInOffHand(null);
+            }
             e.setCancelled(true);
             p.setHealth(0.5);
             Location loc=p.getLocation();

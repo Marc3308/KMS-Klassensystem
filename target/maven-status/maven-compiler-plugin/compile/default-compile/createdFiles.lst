@@ -1,6 +1,7 @@
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\helpcommand.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\ovcommand.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\seelenenergieedit.class
+me\marc3308\klassensysteem\kosystem\infgucken$1.class
 me\marc3308\klassensysteem\Joinev.class
 me\marc3308\klassensysteem\kosystem\koevents.class
 me\marc3308\klassensysteem\Klassensysteem$2.class

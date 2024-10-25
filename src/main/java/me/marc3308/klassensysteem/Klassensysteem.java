@@ -118,8 +118,9 @@ public final class Klassensysteem extends JavaPlugin {
                     if(p.getPersistentDataContainer().has(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)){
                         if(p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)<=0){
                             p.sendBlockChange(p.getLocation().add(0,1,0),p.getLocation().add(0,1,0).getBlock().getBlockData());
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS,20*30,1,false,false));
-                            p.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA,20*10,20,false,false));
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA,20*20,20,false,false));
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS,20*60,1,false,false));
+                            p.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS,20*60,1,false,false));
                             p.getPersistentDataContainer().remove(new NamespacedKey(Klassensysteem.getPlugin(), "istko"));
                         } else {
                             //chanche hight
@@ -174,7 +175,7 @@ public final class Klassensysteem extends JavaPlugin {
         //party system
         Bukkit.getPluginManager().registerEvents(new partyleave(),this);
         Bukkit.getPluginManager().registerEvents(new partyinv(),this);
-        Bukkit.getPluginManager().registerEvents(new partyattack(),this);
+        //Bukkit.getPluginManager().registerEvents(new partyattack(),this);
         getCommand("partyeinladung").setExecutor(new partyinvite());
 
         //listen
