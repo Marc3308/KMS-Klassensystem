@@ -163,7 +163,10 @@ public class partyinv implements Listener {
 
                     //invite
                     p.sendMessage(ChatColor.GREEN+skullplayer.getPersistentDataContainer().get(new NamespacedKey("klassensysteem", "secretname"), PersistentDataType.STRING)+ChatColor.DARK_GREEN+" wurde eingeladen");
-                    TextComponent loc2=new TextComponent(ChatColor.DARK_GREEN+"Du hast eine Bündniseinladung erhalten "+ChatColor.YELLOW+"[Linksklick zum Anschauen]");
+                    TextComponent loc2=new TextComponent(ChatColor.DARK_GREEN+"Du hast eine Gruppeneinladung von "
+                            +ChatColor.GREEN+p.getPersistentDataContainer().get(new NamespacedKey("klassensysteem", "secretname"), PersistentDataType.STRING)
+                            +ChatColor.DARK_GREEN+" erhalten"
+                            +ChatColor.YELLOW+" [Linksklick zum Anschauen]");
                     loc2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/partyeinladung"));
                     skullplayer.sendMessage(loc2);
                     skullplayer.getPersistentDataContainer().set(new NamespacedKey(Klassensysteem.getPlugin(), "partyeinladung"), PersistentDataType.INTEGER,getparty(p));
