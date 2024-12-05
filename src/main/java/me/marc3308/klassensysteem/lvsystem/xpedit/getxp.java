@@ -84,7 +84,8 @@ public class getxp implements Listener {
         //for the party
         xpmobdrop/=Partymitglieder;
 
-        xpgain =p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "xp"), PersistentDataType.DOUBLE) + xpmobdrop;
+        boolean ismaxlv=p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "lv"), PersistentDataType.INTEGER)>=getcon(5).getInt("lv"+".MaxLv");
+        xpgain =ismaxlv ? 1.0 : p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "xp"), PersistentDataType.DOUBLE) + xpmobdrop;
         p.getPersistentDataContainer().set(new NamespacedKey(Klassensysteem.getPlugin(), "xp"), PersistentDataType.DOUBLE,xpgain);
 
         //checking for lv up
@@ -120,7 +121,7 @@ public class getxp implements Listener {
         ArmorStand xptext=p.getWorld().spawn(e.getLocation(),ArmorStand.class);
         xptext.setVisible(false);
         xptext.setCustomNameVisible(true);
-        xptext.setCustomName(ChatColor.YELLOW+"+"+(int) xpmobdrop+"xp");
+        xptext.setCustomName(ismaxlv ? ChatColor.RED+"Max. Level!" : ChatColor.YELLOW+"+"+(int) xpmobdrop+"xp");
         xptext.setGravity(false);
         xptext.setSmall(true);
         xptext.setInvulnerable(true);

@@ -7,6 +7,7 @@ commands:
   profil:
     description: opens up your provile
   klasse:
+    permission: klassenmod
     description: command manager
   skilltree:
     description: opens your skilltree

@@ -147,7 +147,6 @@ public final class Klassensysteem extends JavaPlugin {
 
 
         //todo secret wege einbauen
-        //todo passiven wechsel einbauen
 
         // Create a team with hidden name tags
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
@@ -203,6 +202,7 @@ public final class Klassensysteem extends JavaPlugin {
 
             con.setComments("kill",infos);
 
+            con.set("lv"+".MaxLv",10);
             con.set("lv"+".persentrise",10);
             con.set("lv"+"."+0+".xpneaded",100);
 
