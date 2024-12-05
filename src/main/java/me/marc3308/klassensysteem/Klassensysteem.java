@@ -3,17 +3,16 @@ package me.marc3308.klassensysteem;
 import me.marc3308.klassensysteem.eventlistener.asynchat;
 import me.marc3308.klassensysteem.kosystem.infgucken;
 import me.marc3308.klassensysteem.kosystem.koevents;
+import me.marc3308.klassensysteem.kosystem.pickup;
 import me.marc3308.klassensysteem.lvsystem.commands.CommandManager;
 import me.marc3308.klassensysteem.lvsystem.commands.profile;
 import me.marc3308.klassensysteem.lvsystem.xpedit.getxp;
 import me.marc3308.klassensysteem.lvsystem.xpedit.xplose;
-import me.marc3308.klassensysteem.partysystem.partyattack;
 import me.marc3308.klassensysteem.partysystem.partyinv;
 import me.marc3308.klassensysteem.partysystem.partyinvite;
 import me.marc3308.klassensysteem.partysystem.partyleave;
 import me.marc3308.klassensysteem.skillsystem.skillcommand;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.ArmorStand;
@@ -27,11 +26,7 @@ import org.bukkit.scoreboard.Team;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static me.marc3308.klassensysteem.utilitys.conmap;
@@ -110,7 +105,23 @@ public final class Klassensysteem extends JavaPlugin {
             }
         },0,20*60);
 
-
+        ArrayList<Material> guterastliste=new ArrayList<>();
+        guterastliste.add(Material.YELLOW_BED);
+        guterastliste.add(Material.WHITE_BED);
+        guterastliste.add(Material.LIME_BED);
+        guterastliste.add(Material.PINK_BED);
+        guterastliste.add(Material.ORANGE_BED);
+        guterastliste.add(Material.PURPLE_BED);
+        guterastliste.add(Material.BROWN_BED);
+        guterastliste.add(Material.LIGHT_GRAY_BED);
+        guterastliste.add(Material.BLACK_BED);
+        guterastliste.add(Material.LIGHT_BLUE_BED);
+        guterastliste.add(Material.GRAY_BED);
+        guterastliste.add(Material.BLUE_BED);
+        guterastliste.add(Material.CYAN_BED);
+        guterastliste.add(Material.GREEN_BED);
+        guterastliste.add(Material.MAGENTA_BED);
+        guterastliste.add(Material.RED_BED);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
@@ -133,9 +144,12 @@ public final class Klassensysteem extends JavaPlugin {
                             ar.setSmall(true);
                             Bukkit.getScheduler().runTaskLater(getPlugin(), () -> ar.remove(),21L);
 
-                            if(p.getLocation().add(0,1,0).getBlock().getType().equals(Material.AIR))p.sendBlockChange(p.getLocation().add(0,1,0),Material.BARRIER.createBlockData());
                             p.addPotionEffect(new PotionEffect(PotionEffectType.MINING_FATIGUE,20*3,20,false,false));
                             int is = p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)-1;
+                            if(guterastliste.contains(p.getLocation().getBlock().getType()) && is>10){
+                                p.sleep(p.getLocation(),true);
+                                is=10;
+                            }
                             //is= p.isSneaking() ? (is-=10) : (is-=1);
                             p.getPersistentDataContainer().set(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER,is);
                             if(is>0)p.sendTitle(ChatColor.DARK_RED+""+(p.getPersistentDataContainer().get(new NamespacedKey(Klassensysteem.getPlugin(), "istko"), PersistentDataType.INTEGER)),"");
@@ -165,6 +179,7 @@ public final class Klassensysteem extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new getxp(),this);
         Bukkit.getPluginManager().registerEvents(new Joinev(),this);
         Bukkit.getPluginManager().registerEvents(new xplose(),this);
+        Bukkit.getPluginManager().registerEvents(new pickup(),this);
         Bukkit.getPluginManager().registerEvents(new asynchat(),this);
 
         //kosystems
