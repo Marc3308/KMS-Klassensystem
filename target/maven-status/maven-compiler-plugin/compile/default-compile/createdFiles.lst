@@ -22,6 +22,7 @@ me\marc3308\klassensysteem\lvsystem\commands\CommandManager.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\chanchenamecommand.class
 me\marc3308\klassensysteem\skillsystem\skillcommand.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\statcrelaodcommand.class
+me\marc3308\klassensysteem\kosystem\pickup$1.class
 me\marc3308\klassensysteem\eventlistener\asynchat.class
 me\marc3308\klassensysteem\Klassensysteem.class
 me\marc3308\klassensysteem\partysystem\partyinvite.class
@@ -31,5 +32,6 @@ me\marc3308\klassensysteem\lvsystem\xpedit\getxp$1.class
 me\marc3308\klassensysteem\lvsystem\xpedit\xplose.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\skcommand.class
 me\marc3308\klassensysteem\utilitys.class
+me\marc3308\klassensysteem\kosystem\pickup.class
 me\marc3308\klassensysteem\lvsystem\commands\subcommands\xpcommand.class
 me\marc3308\klassensysteem\partysystem\partyleave.class

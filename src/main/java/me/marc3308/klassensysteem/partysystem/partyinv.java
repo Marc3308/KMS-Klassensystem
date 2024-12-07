@@ -161,6 +161,15 @@ public class partyinv implements Listener {
                         }
                     }
 
+                    //full party
+                    for (party part : partylist){
+                        if(part.getOwner().equals(p.getUniqueId().toString()) && part.getMitglieder().size()+1>8){
+                            p.closeInventory();
+                            p.sendMessage(ChatColor.RED+"Deine Gruppe ist leider voll");
+                            return;
+                        }
+                    }
+
                     //invite
                     p.sendMessage(ChatColor.GREEN+skullplayer.getPersistentDataContainer().get(new NamespacedKey("klassensysteem", "secretname"), PersistentDataType.STRING)+ChatColor.DARK_GREEN+" wurde eingeladen");
                     TextComponent loc2=new TextComponent(ChatColor.DARK_GREEN+"Du hast eine Gruppeneinladung von "
