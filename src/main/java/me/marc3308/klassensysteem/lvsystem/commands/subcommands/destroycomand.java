@@ -27,7 +27,7 @@ public class destroycomand extends subcommand {
     public void perform(Player p, String[] args) {
 
         Player pp= p;
-        if(!p.hasPermission("klassenmod"))return;
+        if(!p.hasPermission("got"))return;
 
         if(Bukkit.getPlayer(args[1])==null){
             p.sendMessage(ChatColor.RED+"Dieser Spieler existiert nicht oder ist nicht online");

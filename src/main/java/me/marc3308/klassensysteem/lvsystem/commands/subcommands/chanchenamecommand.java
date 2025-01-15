@@ -29,8 +29,6 @@ public class chanchenamecommand extends subcommand {
     public void perform(Player p, String[] args) {
 
         Player pp= p;
-        if(!p.hasPermission("klassenmod"))return;
-
 
         if(args.length<3){
             p.sendMessage(ChatColor.RED+"Bitte versuche: "+ChatColor.GREEN+"/klasse chanchename <player> <new name>");

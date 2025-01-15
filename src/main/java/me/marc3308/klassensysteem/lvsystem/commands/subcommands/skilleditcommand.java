@@ -27,8 +27,6 @@ public class skilleditcommand extends subcommand {
     @Override
     public void perform(Player p, String[] args) {
 
-        if(!p.hasPermission("klassenmod"))return;
-
         //if /klasse skill all Marc3308
         if(args.length==3){
             if(Bukkit.getPlayer(args[2])==null){

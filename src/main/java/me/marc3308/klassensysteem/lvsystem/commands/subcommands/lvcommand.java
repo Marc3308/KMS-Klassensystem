@@ -29,9 +29,6 @@ public class lvcommand extends subcommand {
     @Override
     public void perform(Player p, String[] args) {
 
-        if(!p.hasPermission("klassenmod"))return;
-
-
         //check if right lenght
         if (args.length==3) {
 

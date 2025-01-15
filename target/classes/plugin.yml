@@ -1,6 +1,7 @@
 name: klassensysteem
 version: '1.21.1'
 main: me.marc3308.klassensysteem.Klassensysteem
+depend: [zerotrust]
 api-version: '1.20'
 
 commands:

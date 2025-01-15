@@ -25,8 +25,6 @@ public class statcrelaodcommand extends subcommand {
     @Override
     public void perform(Player p, String[] args) {
 
-        if(!p.hasPermission("klassenmod"))return;
-
         if(Bukkit.getPlayer(args[1])==null){
             p.sendMessage(ChatColor.RED+"Dieser Spieler existiert nicht oder ist nicht online");
             return;
