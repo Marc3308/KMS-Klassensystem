@@ -38,9 +38,13 @@ public class gui implements Listener {
                     e.setCancelled(true);
                     return;
                 }
+                //if player is not the owner of the skull
+                if(!p.equals(skull.getOwningPlayer().getPlayer())){
+                    e.setCancelled(true);
+                    return;
+                }
                 p=skull.getOwningPlayer().getPlayer();
             }
-
             e.setCancelled(true);
             if(e.getCurrentItem()==null)return;
             if(!e.getAction().equals(InventoryAction.PICKUP_ALL))return;

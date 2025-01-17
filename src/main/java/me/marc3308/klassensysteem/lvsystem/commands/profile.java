@@ -50,7 +50,6 @@ public class profile implements CommandExecutor {
         if(pp.hasPermission("klassenmod") && strings.length==1){
 
             p=Bukkit.getOfflinePlayer(strings[0]);
-
         }
 
         //check if player has rasse
