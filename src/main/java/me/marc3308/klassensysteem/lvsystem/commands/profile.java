@@ -1,16 +1,16 @@
 package me.marc3308.klassensysteem.lvsystem.commands;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
+import com.destroystokyo.paper.profile.ProfileProperty;
 import me.marc3308.klassensysteem.Klassensysteem;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -18,9 +18,11 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static me.marc3308.klassensysteem.utilitys.builder;
 import static me.marc3308.klassensysteem.utilitys.getcon;
+import static org.bukkit.Bukkit.getServer;
 
 public class profile implements CommandExecutor {
 
@@ -29,8 +31,10 @@ public class profile implements CommandExecutor {
 
         //check if is a player
         if(!(commandSender instanceof Player))return false;
-        Player p=(Player) commandSender;
+        OfflinePlayer p=(OfflinePlayer) commandSender;
         Player pp=(Player) commandSender;
+
+
 
         FileConfiguration con=getcon(1);
         FileConfiguration con2=getcon(2);
@@ -43,13 +47,9 @@ public class profile implements CommandExecutor {
         FileConfiguration con9=getcon(9);
 
         //check if mod wants to see a provile
-        if(p.hasPermission("klassenmod") && strings.length==1){
+        if(pp.hasPermission("klassenmod") && strings.length==1){
 
-            if(Bukkit.getPlayer(strings[0])==null){
-                p.sendMessage(ChatColor.RED+"Dieser Spieler existiert nicht oder ist nicht online");
-                return false;
-            }
-            p=Bukkit.getPlayer(strings[0]);
+            p=Bukkit.getOfflinePlayer(strings[0]);
 
         }
 
@@ -91,13 +91,25 @@ public class profile implements CommandExecutor {
         if(!klasse.equals("Klassenlos") && !klasse.equals(" "))skull_lore.add("Titel: "+con9.getString(klasse+".AnzeigeName"));
         skull_lore.add("Seelenenergie: "+p.getPersistentDataContainer().getOrDefault(new NamespacedKey(Klassensysteem.getPlugin(), "Seelenenergie"), PersistentDataType.INTEGER,100)+"%");
         skull.setDisplayName(p.getName().toString());
-        skull.setOwner(p.getName().toString());
+        if(Bukkit.getPlayer(p.getName())==null){
+            String base64 = p.isWhitelisted() ? "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWU3NzAwMDk2YjVhMmE4NzM4NmQ2MjA1YjRkZGNjMTRmZDMzY2YyNjkzNjJmYTY4OTM0OTk0MzFjZTc3YmY5In19fQ=="
+                    : "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmViNTg4YjIxYTZmOThhZDFmZjRlMDg1YzU1MmRjYjA1MGVmYzljYWI0MjdmNDYwNDhmMThmYzgwMzQ3NWY3In19fQ==";
+
+            // Create a PlayerProfile with a random UUID and apply the base64 texture
+            PlayerProfile profile = getServer().createProfile(UUID.randomUUID(), "CustomHead");
+            profile.getProperties().add(new ProfileProperty("textures", base64));
+
+            // Set the profile to the skull meta
+            skull.setPlayerProfile(profile);
+        } else {
+            skull.setOwner(p.getName());
+        }
         skull.setLore(skull_lore);
         head.setItemMeta(skull);
 
 
         //invenory
-        Inventory provile=Bukkit.createInventory(p,27,ChatColor.BOLD+"PROFIL");
+        Inventory provile=Bukkit.createInventory(pp,27,ChatColor.BOLD+"PROFIL");
         provile.setItem(0,head);
         provile.setItem(26,builder(p,"lv",lv,4));
         provile.setItem(9,rasse.equals("spezienlos")

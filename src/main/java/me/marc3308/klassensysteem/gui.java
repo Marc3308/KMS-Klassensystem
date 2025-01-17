@@ -18,7 +18,6 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.UUID;
 
 import static me.marc3308.klassensysteem.utilitys.*;
 
@@ -35,6 +34,10 @@ public class gui implements Listener {
             //have to test
             if(e.getInventory().getItem(0).getType().equals(Material.PLAYER_HEAD)){
                 SkullMeta skull=(SkullMeta) e.getInventory().getItem(0).getItemMeta();
+                if(skull.getOwningPlayer().getPlayer()==null){
+                    e.setCancelled(true);
+                    return;
+                }
                 p=skull.getOwningPlayer().getPlayer();
             }
 

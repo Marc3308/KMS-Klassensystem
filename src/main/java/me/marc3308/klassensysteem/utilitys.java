@@ -148,7 +148,7 @@ public class utilitys {
         return grundklasse;
     }
 
-    public static ItemStack builder(Player p, String s, Integer xx, Integer yml){
+    public static ItemStack builder(OfflinePlayer p, String s, Integer xx, Integer yml){
 
         FileConfiguration con=getcon(1);
         FileConfiguration con2=getcon(2);
